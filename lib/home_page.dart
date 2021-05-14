@@ -29,12 +29,12 @@ class _HomePageState extends State<HomePage> {
     final imageBloc = BlocProvider.of<ImageBloc>(context);
     return BlocConsumer<ImageBloc, ImageState>(
       listener: (BuildContext context, Object? state) {
-        if (state is LoadedState && state.images.isEmpty) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text("end of story"),
-            duration: Duration(milliseconds: 700),
-          ));
-        }
+        // if (state is LoadedState && state.images.isEmpty) {
+        //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        //     content: Text("end of story"),
+        //     duration: Duration(milliseconds: 700),
+        //   ));
+        // }
       },
       builder: (BuildContext context, state) {
         if (state is InitialState || state is LoadingState && _images.isEmpty) {
@@ -96,13 +96,14 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 SliverToBoxAdapter(
-                  child: state is LoadedState && state.images.isNotEmpty
+                  child: state is LoadedState
                       ? Container(
                           height: 100,
                           child: Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                        )
+                            child: state.images.isNotEmpty
+                                ? CircularProgressIndicator()
+                                : Text('Happy end of story ;)'),
+                          ))
                       : SizedBox.shrink(),
                 )
               ],
